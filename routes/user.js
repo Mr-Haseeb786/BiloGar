@@ -4,6 +4,7 @@ const {
   getUserSignUpPage,
   handleUserSignIn,
   handleUserSignUp,
+  handleUserLogout,
 } = require("../controllers/user");
 
 const router = Router();
@@ -13,5 +14,7 @@ router.get("/signup", getUserSignUpPage);
 
 router.post("/signup", handleUserSignUp);
 router.post("/signin", handleUserSignIn);
+
+router.get("/logout", handleUserLogout);
 
 module.exports = router;

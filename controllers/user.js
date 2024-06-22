@@ -25,15 +25,23 @@ async function handleUserSignUp(req, res) {
 }
 async function handleUserSignIn(req, res) {
   const { email, password } = req.body;
-
   if (!email || !password)
-    return res.status(400).json({ msg: "Enter complete Details" });
+    return res.status(400).render("signin", {
+      error: "Please enter complete details",
+    });
 
-  const user = userModel.matchPassword(email, password);
+  try {
+    const token = await userModel.matchPasswordAndCreateToken(email, password);
+    res.cookie("token", token).redirect("/");
+  } catch (error) {
+    res.render("signin", {
+      error: error.message,
+    });
+  }
+}
 
-  // if (!user) return res.status(404).json({ msg: "User not found" });
-
-  res.redirect("/");
+function handleUserLogout(req, res) {
+  return res.clearCookie("token").redirect("/");
 }
 
 module.exports = {
@@ -41,4 +49,5 @@ module.exports = {
   getUserSignUpPage,
   handleUserSignIn,
   handleUserSignUp,
+  handleUserLogout,
 };
