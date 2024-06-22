@@ -11,6 +11,8 @@ connectToDB(process.env.DB_URL)
   .then(() => console.log("Connected to DB"))
   .catch(() => console.log("Failed to Connect"));
 
+app.use(express.urlencoded({ extended: true }));
+
 app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
 

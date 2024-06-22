@@ -29,12 +29,9 @@ async function handleUserSignIn(req, res) {
   if (!email || !password)
     return res.status(400).json({ msg: "Enter complete Details" });
 
-  const user = await userModel.findOne({
-    email,
-    password,
-  });
+  const user = userModel.matchPassword(email, password);
 
-  if (!user) return res.status(404).json({ msg: "User not found" });
+  // if (!user) return res.status(404).json({ msg: "User not found" });
 
   res.redirect("/");
 }
