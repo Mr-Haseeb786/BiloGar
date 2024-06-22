@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head') %>
+    <title>HomePage</title>
+  </head>
+  <body>
+    <%- include('./partials/navbar') %>
+    <div
+      style="
+        width: max-content;
+        margin-top: 4rem;
+        margin-left: auto;
+        margin-right: auto;
+      "
+    >
+      <form
+        style="
+          background-color: bisque;
+          padding: 2rem 4rem;
+          border-radius: 20px;
+        "
+        action="/blog/add-new"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <label for="exampleInputEmail1" class="form-label">Blog Title</label>
+        <input
+          required
+          type="text"
+          class="form-control"
+          aria-describedby="emailHelp"
+          id="exampleInputEmail1"
+          name="title"
+        />
+        <div class="form-floating mt-3" style="width: 500px">
+          <textarea
+            required
+            class="form-control"
+            placeholder="Leave a comment here"
+            id="floatingTextarea2"
+            style="height: 200px"
+            name="body"
+          ></textarea>
+          <label for="floatingTextarea2">Express your thoughts...</label>
+        </div>
+        <label for="fileField" class="form-label mt-3">Cover Image</label>
+        <input
+          type="file"
+          class="form-control"
+          aria-describedby="emailHelp"
+          id="fileField"
+          name="coverImage"
+        />
+        <button
+          type="submit"
+          class="btn btn-outline-success mt-3 mb-3"
+          style="width: max-content; margin-left: 360px"
+        >
+          Post Online!
+        </button>
+      </form>
+    </div>
+    <%- include('./partials/scripts') %>
+  </body>
+</html>
