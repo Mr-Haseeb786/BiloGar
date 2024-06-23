@@ -19,6 +19,7 @@ connectToDB(process.env.DB_URL)
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.resolve("./public/images")));
+app.use(express.static(path.resolve("./public")));
 app.use(cookieParser());
 app.use(checkForAuthentications("token"));
 
