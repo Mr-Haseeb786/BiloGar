@@ -2,6 +2,7 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const { blogModel } = require("../models/blog");
+const { commentModel } = require("../models/comments");
 
 function handleGetCreateBlogPage(req, res) {
   return res.render("addblog", {
@@ -31,10 +32,53 @@ async function handlePostNewBlog(req, res) {
   const blog = await blogModel.create({
     title,
     body: blogBody,
-    createdBy: req.user._id,
     coverImageURL: `/uploads/${req.file.filename}`,
+    createdBy: req.user.id,
   });
   res.redirect(`/blog/${blog._id}`);
 }
 
-module.exports = { handlePostNewBlog, handleGetCreateBlogPage, upload };
+async function handlePostComments(req, res) {
+  if (!req.user) return res.end("Please Login to comment");
+
+  try {
+    await commentModel.create({
+      content: req.body.content,
+      blogId: req.params.blogId,
+      createdBy: req.user.id,
+    });
+    return res.redirect(`/blog/${req.params.blogId}`);
+  } catch (error) {
+    console.log(error);
+    return res.end("There was an error while commenting");
+  }
+}
+
+async function handleGetSingleBlog(req, res) {
+  try {
+    const singleBlog = await blogModel
+      .findById(req.params.id)
+      .populate("createdBy");
+    const blogComments = await commentModel
+      .find({
+        blogId: req.params.id,
+      })
+      .populate("createdBy");
+
+    return res.render("single-blog", {
+      user: req.user,
+      blog: singleBlog,
+      comments: blogComments,
+    });
+  } catch (error) {
+    return res.end("There was an error while fetching the blogs");
+  }
+}
+
+module.exports = {
+  handlePostNewBlog,
+  handleGetCreateBlogPage,
+  upload,
+  handlePostComments,
+  handleGetSingleBlog,
+};

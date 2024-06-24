@@ -27,6 +27,91 @@
         <%= blog.body %>
       </p>
     </div>
+
+    <!-- <div class="container">
+      <img
+        src="<%= blog.createdBy.profileImgUrl %>"
+        alt="<%= blog.createdBy.fullName %>"
+        width="50px"
+      />
+      <%= blog.createdBy.fullName %>
+    </div> -->
+
+    <% if (user) { %>
+
+    <div
+      class="container"
+      style="width: max-content; margin-top: 3rem; margin-bottom: 3rem"
+    >
+      <form
+        style="
+          background-color: lightblue;
+          padding: 2rem 4rem;
+          border-radius: 20px;
+        "
+        action="/blog/comment/<%= blog._id %>"
+        method="post"
+      >
+        <div class="mb-3">
+          <h3>Write a Comment</h3>
+          <div class="form-floating mt-3" style="width: 500px">
+            <textarea
+              required
+              class="form-control"
+              placeholder="Leave a comment here"
+              id="floatingTextarea2"
+              style="height: 200px"
+              name="content"
+            ></textarea>
+            <label for="floatingTextarea2"
+              >What do you think about it....</label
+            >
+          </div>
+        </div>
+        <button
+          type="submit"
+          class="btn btn-success"
+          style="margin-left: 22rem"
+        >
+          Post Comment
+        </button>
+      </form>
+    </div>
+    <% } else { %>
+    <div class="container mb-4">
+      <h3>Please Login to Comment!</h3>
+    </div>
+
+    <% } %>
+
+    <!-- comments section -->
+
+    <section
+      class="container mb-5"
+      style="background-color: aquamarine; padding: 1.5rem; border-radius: 20px"
+    >
+      <h2 class="mb-5">Comments</h2>
+      <% if (comments) { %> <% comments.forEach(comment => { %>
+      <article class="border border-black p-3 mb-2" style="width: max-content">
+        <div
+          class="user-info d-flex align-items-center justify-content-between gap-4 mb-2"
+          style="max-width: max-content"
+        >
+          <img
+            src="<%= comment.createdBy.profileImgUrl %>"
+            alt="<%= comment.createdBy.fullName %>"
+            width="40px"
+          />
+          <p style="margin: 0"><%= comment.createdBy.fullName %></p>
+        </div>
+        <p><%= comment.content %></p>
+      </article>
+
+      <% }) %>
+      <!-- end of loop body -->
+      <% } %>
+    </section>
+
     <%- include('./partials/scripts') %>
   </body>
 </html>
