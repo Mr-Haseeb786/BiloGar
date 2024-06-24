@@ -11,7 +11,6 @@ const { blogModel } = require("./models/blog");
 require("dotenv").config();
 
 const app = express();
-const PORT = 8000;
 
 connectToDB(process.env.DB_URL)
   .then(() => console.log("Connected to DB"))
@@ -37,4 +36,6 @@ app.get("/", async (req, res) => {
 app.use("/user", userRoutes);
 app.use("/blog", blogRoutes);
 
-app.listen(PORT, () => console.log(`Server on port ${PORT}`));
+app.listen(process.env.PORT, () =>
+  console.log(`Server on port ${process.env.PORT}`)
+);
